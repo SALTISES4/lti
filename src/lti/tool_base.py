@@ -1,8 +1,10 @@
-
+import logging
 from .launch_params import LaunchParams, valid_param
 
 ROLES_STUDENT = ['student', 'learner']
 ROLES_INSTRUCTOR = ['instructor', 'faculty', 'staff']
+
+logger = logging.getLogger(__name__)
 
 
 class ToolBase(object):
@@ -73,6 +75,7 @@ class ToolBase(object):
 
     def to_params(self):
         params = dict(self.launch_params)
+        logger.info(params)
         # stringify any list values
         for k, v in params.items():
             if isinstance(v, list):
