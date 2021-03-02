@@ -1,3 +1,5 @@
+import logging
+
 from .utils import InvalidLTIRequestError
 from .launch_params import LaunchParams
 from .tool_base import ToolBase
@@ -8,6 +10,8 @@ from requests.structures import CaseInsensitiveDict
 
 from .outcome_request import OutcomeRequest
 from collections import defaultdict
+
+logger = logging.getLogger(__name__)
 
 try:
     from urllib.parse import urlencode, urlsplit, urlunsplit, parse_qsl
@@ -27,7 +31,7 @@ class ToolProvider(ToolBase):
     def from_unpacked_request(cls, secret, params, url, headers):
 
         launch_params = cls.launch_params_class(params)
-
+        logger.info(launch_params)
         if 'oauth_consumer_key' not in launch_params:
             raise InvalidLTIRequestError("oauth_consumer_key not found!")
 
