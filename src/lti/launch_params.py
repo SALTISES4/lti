@@ -1,4 +1,5 @@
 import sys
+import logging 
 
 try:
     from collections.abc import MutableMapping
@@ -6,6 +7,8 @@ except ImportError:
     from collections import MutableMapping
 
 from . import DEFAULT_LTI_VERSION
+
+logger = logging.getLogger(__name__)
 
 py = sys.version_info
 if py < (2, 6, 0):
@@ -159,7 +162,9 @@ class LaunchParams(MutableMapping):
     """
 
     def __init__(self, *args, **kwargs):
-
+        logger.info(*args)
+        logger.info(**kwargs)
+        
         self._params = dict()
         self.update(*args, **kwargs)
 
