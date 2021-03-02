@@ -1,7 +1,9 @@
+import logging
 
 from lti import ToolProvider
 from django.shortcuts import redirect
 
+logger = logging.getLogger(__name__)
 
 class DjangoToolProvider(ToolProvider):
     '''
@@ -13,12 +15,15 @@ class DjangoToolProvider(ToolProvider):
             raise ValueError('request must be supplied')
 
         params = request.POST.copy()
+        logger.info(params)
         # django shoves a bunch of other junk in META that we don't care about
         headers = dict([(k, request.META[k])
                         for k in request.META if
                         k.upper().startswith('HTTP_') or
                         k.upper().startswith('CONTENT_')])
         url = request.build_absolute_uri()
+        logger.info(headers)
+        logger.info(url)
         return cls.from_unpacked_request(secret, params, url, headers)
 
     def success_redirect(self, msg='', log=''):
